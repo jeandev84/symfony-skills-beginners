@@ -1,0 +1,7 @@
+$ composer create-project symfony/skeleton SmallProject (basic project - micro framework)
+$ composer create-project symfony/website-skeleton  BigProject (advanced site - website framework)
+
+==================================================================
+
+$ sudo composer create-project symfony/skeleton SmallProject (basic project - micro framework)
+$ sudo composer create-project symfony/website-skeleton  BigProject (advanced site - website framework)

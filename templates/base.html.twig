@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <title>
+            {% block title %}
+                Welcome!
+            {% endblock %}
+        </title>
+
+        {% block myownblockwhatever %}
+        {% endblock %}
+
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {# navigation #}
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

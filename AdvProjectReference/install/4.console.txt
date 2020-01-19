@@ -1,0 +1,14 @@
+Console already installed
+$ composer require console
+
+======================================
+Console maker-bundle
+$ composer require maker
+ make:entity
+ make:controller
+ make:auth ...
+
+
+$ php bin/console make:controller
+
+

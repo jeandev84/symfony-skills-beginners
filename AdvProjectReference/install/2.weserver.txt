@@ -1,0 +1,63 @@
+
+https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04
+========================================
+INSTALL APACHE SERVER
+========================================
+$ sudo apt-get install apache2
+[sudo] password for jeandev84: xxxsecretxxxxpassword
+
+
+$ sudo apache2ctl configtest
+$ sudo nano /etc/apache2/apache2.conf
+$ sudo apache2ctl configtest
+
+$ sudo systemctl restart apache2
+
+
+=================================================
+INSTALL MySQL
+=================================================
+
+$ sudo apt-get install mysql-server
+$ mysql --version
+$ mysql -u root -p
+Enter password: (Tape "Enter" if hasn't password)
+
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 549
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++------------------------+
+| Database               |
++------------------------+
+| biblio_api             |
+| information_schema     |
+| laracasts_php          |
+| mvclikepro             |
+| mvclikeprologin        |
+| mysql                  |
+| performance_schema     |
+| shop                   |
+| symfony_code_free_blog |
+| symfonyskills          |
+| webshake_blog          |
++------------------------+
+11 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+
+====================================================
+INSTALL PHP
+====================================================
+
+$ sudo systemctl restart apache2 ( Restart apache server)
+$ sudo systemctl status apache2  ( Get Status apache server)
+
+====================================================

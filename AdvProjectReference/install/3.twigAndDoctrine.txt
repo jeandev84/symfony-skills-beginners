@@ -1,0 +1,9 @@
+SYMFONY FLEX used for management dependencies of project:
+can replace require by req
+============================================================
+TWIG
+$ composer require twig
+
+DOCTRINE
+$ composer require doctrine
+
