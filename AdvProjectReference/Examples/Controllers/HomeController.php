@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -40,26 +39,20 @@ class HomeController extends AbstractController
     */
     public function helloUser(Request $request, $name)
     {
-        // request
-        // $name = $request->get('name');
+       // $name = $request->get('name');
 
-        /*-------------------------------------------------------------
-         * explain difference between createForm & createFormBuilder
-        --------------------------------------------------------------*/
-        $form = $this->createFormBuilder()
-                     ->add('fullname', TextType::class)
-                     ->getForm();
+       //$form = $this->createFormBuilder()
+                    //->add();
 
-
-        $person = [
+       $person = [
            'name' => 'Jean-Claude',
            'lastname' => 'Yao',
            'age' => 35
-        ];
+       ];
 
        return $this->render('home/greet.html.twig', [
-          'person' => $person,
-           'user_form'  => $form->createView()
+           'name' => $name,
+           //'form' => $form->createView()
        ]);
     }
 }

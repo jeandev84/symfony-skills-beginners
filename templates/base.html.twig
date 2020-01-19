@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
         <title>
             {% block title %}
@@ -16,8 +17,11 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {# navigation #}
-        {% block body %}{% endblock %}
+        <div class="container">
+             {# navigation #}
+             <h2>Navigation</h2>
+             {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
