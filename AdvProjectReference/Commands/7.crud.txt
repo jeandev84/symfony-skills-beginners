@@ -1,0 +1,111 @@
+CRUD
+==================
+CREATE
+READ
+UPDATE
+DELETE
+
+==================
+$ composer require security-csrf
+$ composer require validator annotations
+
+==================
+Make Entity
+
+bin/console make:entity
+
+ Class name of the entity to create or update (e.g. FiercePizza):
+ > Category
+
+ created: src/Entity/Category.php
+ created: src/Repository/CategoryRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > name
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Category.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > slug
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Category.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+======================================================
+Update Schema
+$ bin/console doctrine:schema:update --force
+
+ Updating database schema...
+
+     1 query was executed
+
+
+ [OK] Database schema updated successfully!
+
+==================================================
+$ bin/console make:migration
+
+
+   [WARNING] No database changes were detected.
+
+
+   The database schema and the application mapping information are already in sync.
+
+======================================================
+if table already exist we must to use next command, for example (category) :
+
+$ bin/console doctrine:schema:update --force
+
+
+==================
+Generate CRUD
+
+bin/console make:crud
+
+ The class name of the entity to create CRUD (e.g. DeliciousChef):
+ > Category
+
+ created: src/Controller/CategoryController.php
+ created: src/Form/CategoryType.php
+ created: templates/category/_delete_form.html.twig
+ created: templates/category/_form.html.twig
+ created: templates/category/edit.html.twig
+ created: templates/category/index.html.twig
+ created: templates/category/new.html.twig
+ created: templates/category/show.html.twig
+
+
+  Success!
+
+
+ Next: Check your new CRUD by going to /category/
