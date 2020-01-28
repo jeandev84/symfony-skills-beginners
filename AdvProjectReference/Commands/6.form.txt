@@ -1,0 +1,34 @@
+Install Form
+================================
+$ composer require form
+================================
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ bin/console make:form
+
+ The name of the form class (e.g. DeliciousPuppyType):
+ > PostType
+
+ The name of Entity or fully qualified model class name that the new form will be bound to (empty for none):
+ > Post
+
+ created: src/Form/PostType.php
+
+
+  Success!
+
+
+ Next: Add fields to your form and start using it.
+ Find the documentation at https://symfony.com/doc/current/forms.html
+
+=====================================================================
+
+$ bin/console debug:router
+----------------- -------- -------- ------ --------------------------
+Name              Method   Scheme   Host   Path
+----------------- -------- -------- ------ --------------------------
+_preview_error    ANY      ANY      ANY    /_error/{code}.{_format}
+form              ANY      ANY      ANY    /form
+home.index        ANY      ANY      ANY    /home/index
+home.hello_user   ANY      ANY      ANY    /home/helloUser/{name}
+----------------- -------- -------- ------ --------------------------
+
