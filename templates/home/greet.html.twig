@@ -15,4 +15,9 @@
        {{ form_label(user_form.fullname) }}
        {{ form_widget(user_form.fullname) }}
     {{ form_end(user_form) }}
+
+    <h1>Render the post that i got from the database</h1>
+    {{ post.title }}
+    <hr>
+    {{ post.description }}
 {% endblock %}

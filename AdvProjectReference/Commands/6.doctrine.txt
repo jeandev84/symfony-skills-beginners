@@ -1,0 +1,176 @@
+Make Entity
+===================================
+config/packages/doctrine.yaml
+config/packages/doctrine_migrations.yaml
+
+===================================
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ bin/console make:entity
+
+ Class name of the entity to create or update (e.g. GrumpyPizza):
+ > Post
+
+ created: src/Entity/Post.php
+ created: src/Repository/PostRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > title
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > description
+
+ Field type (enter ? to see all types) [string]:
+ > text
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+===================================================
+MySQL :
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 37
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++------------------------+
+| Database               |
++------------------------+
+| biblio_api             |
+| information_schema     |
+| laracasts_php          |
+| mvclikepro             |
+| mvclikeprologin        |
+| mysql                  |
+| performance_schema     |
+| shop                   |
+| symfony_code_free_blog |
+| symfonyskills          |
+| webshake_blog          |
++------------------------+
+11 rows in set (0.056 sec)
+
+MariaDB [(none)]> exit
+Bye
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 39
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++------------------------+
+| Database               |
++------------------------+
+| biblio_api             |
+| information_schema     |
+| laracasts_php          |
+| mvclikepro             |
+| mvclikeprologin        |
+| mysql                  |
+| performance_schema     |
+| shop                   |
+| skills                 |
+| symfony_code_free_blog |
+| symfonyskills          |
+| webshake_blog          |
++------------------------+
+12 rows in set (0.001 sec)
+
+MariaDB [(none)]> use skills;
+Database changed
+MariaDB [skills]> show tables;
++------------------+
+| Tables_in_skills |
++------------------+
+| post             |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [skills]> describe post;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(255) | NO   |     | NULL    |                |
+| description | longtext     | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.002 sec)
+
+MariaDB [skills]> select * from post;
+Empty set (0.001 sec)
+
+MariaDB [skills]> select * from post;
++----+----------------+------------------------------+
+| id | title          | description                  |
++----+----------------+------------------------------+
+|  1 | overseas media | youtube channel for web shit |
++----+----------------+------------------------------+
+1 row in set (0.005 sec)
+
+MariaDB [skills]> select * from post;
+Empty set (0.000 sec)
+
+MariaDB [skills]>
+
+
+=============================================
+Create Database :
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ bin/console doctrine:database:create
+Created database `skills` for connection named default
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ bin/console doctrine:schema:create --dump-sql
+
+ The following SQL statements will be executed:
+
+     CREATE TABLE post (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ bin/console doctrine:schema:create
+
+ !
+ ! [CAUTION] This operation should not be executed in a production environment!
+ !
+
+ Creating database schema...
+
+
+ [OK] Database schema created successfully!
+
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$
+
