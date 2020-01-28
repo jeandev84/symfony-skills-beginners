@@ -1,0 +1,415 @@
+Each post (Post) -> has many categories (Category)
+Each category (Category) -> belongs to (appartient a) may posts (Post)
+
+#========================================================================
+
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ */
+class Post
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="post")
+    */
+    private $category;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+}
+
+============================================================
+
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ */
+class Category
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="category")
+    */
+    private $post;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+}
+
+============================================================
+
+$ bin/console make:entity --regenerate | bin/console doctrine:generate:entities
+
+
+ This command will generate any missing methods (e.g. getters & setters) for a class or all classes in a namespace.
+
+ To overwrite any existing methods, re-run this command with the --overwrite flag
+
+ Enter a class or namespace to regenerate [App\Entity]:
+ > (You can specify your namespace here Example App\Entity\Models)
+
+ updated: src/Entity/Category.php
+ updated: src/Entity/Post.php
+
+
+  Success!
+
+======================================================
+Migrate
+
+$ bin/console doctrine:schema:update --dump-sql
+
+ The following SQL statements will be executed:
+
+     ALTER TABLE post ADD category_id INT DEFAULT NULL;
+     ALTER TABLE post ADD CONSTRAINT FK_5A8A6C8D12469DE2 FOREIGN KEY (category_id) REFERENCES category (id);
+     CREATE INDEX IDX_5A8A6C8D12469DE2 ON post (category_id);
+
+===================================================
+
+$ bin/console doctrine:schema:update --force
+
+===================================================
+
+MYSQL
+
+$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 123
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use skills;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [skills]> describe post;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(255) | NO   |     | NULL    |                |
+| description | longtext     | NO   |     | NULL    |                |
+| category_id | int(11)      | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.003 sec)
+
+MariaDB [skills]>
+
+================================================================================
+
+jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 37
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++------------------------+
+| Database               |
++------------------------+
+| biblio_api             |
+| information_schema     |
+| laracasts_php          |
+| mvclikepro             |
+| mvclikeprologin        |
+| mysql                  |
+| performance_schema     |
+| shop                   |
+| symfony_code_free_blog |
+| symfonyskills          |
+| webshake_blog          |
++------------------------+
+11 rows in set (0.056 sec)
+
+MariaDB [(none)]> exit
+Bye
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 39
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++------------------------+
+| Database               |
++------------------------+
+| biblio_api             |
+| information_schema     |
+| laracasts_php          |
+| mvclikepro             |
+| mvclikeprologin        |
+| mysql                  |
+| performance_schema     |
+| shop                   |
+| skills                 |
+| symfony_code_free_blog |
+| symfonyskills          |
+| webshake_blog          |
++------------------------+
+12 rows in set (0.001 sec)
+
+MariaDB [(none)]> use skills;
+Database changed
+MariaDB [skills]> show tables;
++------------------+
+| Tables_in_skills |
++------------------+
+| post             |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [skills]> describe post;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(255) | NO   |     | NULL    |                |
+| description | longtext     | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.002 sec)
+
+MariaDB [skills]> select * from post;
+Empty set (0.001 sec)
+
+MariaDB [skills]> select * from post;
++----+----------------+------------------------------+
+| id | title          | description                  |
++----+----------------+------------------------------+
+|  1 | overseas media | youtube channel for web shit |
++----+----------------+------------------------------+
+1 row in set (0.005 sec)
+
+MariaDB [skills]> select * from post;
+Empty set (0.000 sec)
+
+MariaDB [skills]> select * from post;
+Empty set (0.002 sec)
+
+MariaDB [skills]> select * from post;
++----+----------------+-----------------------------+
+| id | title          | description                 |
++----+----------------+-----------------------------+
+|  2 | Overseas media | Youtube channel for webshit |
++----+----------------+-----------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [skills]> Ctrl-C -- exit!
+Aborted
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 67
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++------------------------+
+| Database               |
++------------------------+
+| biblio_api             |
+| information_schema     |
+| laracasts_php          |
+| mvclikepro             |
+| mvclikeprologin        |
+| mysql                  |
+| performance_schema     |
+| shop                   |
+| skills                 |
+| symfony_code_free_blog |
+| symfonyskills          |
+| webshake_blog          |
++------------------------+
+12 rows in set (0.002 sec)
+
+MariaDB [(none)]> use skills;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [skills]> describe post;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(255) | NO   |     | NULL    |                |
+| description | longtext     | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [skills]> select * from post;
++----+----------------+-----------------------------+
+| id | title          | description                 |
++----+----------------+-----------------------------+
+|  2 | Overseas media | Youtube channel for webshit |
++----+----------------+-----------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [skills]> exit
+Bye
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 123
+Server version: 10.3.19-MariaDB-1:10.3.19+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use skills;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [skills]> describe post;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(255) | NO   |     | NULL    |                |
+| description | longtext     | NO   |     | NULL    |                |
+| category_id | int(11)      | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.003 sec)
+
+MariaDB [skills]> select * from post;
++----+------------------+-------------------------------+-------------+
+| id | title            | description                   | category_id |
++----+------------------+-------------------------------+-------------+
+|  2 | Overseas media 1 | Youtube channel for webshit 1 |        NULL |
+|  3 | Overseas media 2 | Youtube channel for webshit 2 |        NULL |
+|  4 | Overseas media 3 | Youtube channel for webshit 3 |        NULL |
+|  5 | Overseas media 4 | Youtube channel for webshit 4 |        NULL |
+|  6 | Overseas media 5 | Youtube channel for webshit 5 |        NULL |
++----+------------------+-------------------------------+-------------+
+5 rows in set (0.001 sec)
+
+MariaDB [skills]> select * from post;
++----+------------------+-------------------------------+-------------+
+| id | title            | description                   | category_id |
++----+------------------+-------------------------------+-------------+
+|  2 | Overseas media 1 | Youtube channel for webshit 1 |        NULL |
+|  3 | Overseas media 2 | Youtube channel for webshit 2 |        NULL |
+|  4 | Overseas media 3 | Youtube channel for webshit 3 |        NULL |
+|  5 | Overseas media 4 | Youtube channel for webshit 4 |        NULL |
+|  6 | Overseas media 5 | Youtube channel for webshit 5 |        NULL |
+|  7 | Hello world      | Doctrine RelationShips        |           1 |
++----+------------------+-------------------------------+-------------+
+6 rows in set (0.001 sec)
+
+MariaDB [skills]>

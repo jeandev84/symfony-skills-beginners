@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{#{% block title %}#}
+{#    Welcome {{ person.name }}#}
+{#{% endblock %}#}
+
+{% block body %}
+    {#    <h1>Hello {{ person.name }}</h1>#}
+    {#    <h1>Lastname : {{ person.lastname }}</h1>#}
+    {#    <h1>Age : {{ person.age }}</h1>#}
+
+    {#    <h1>User Form:</h1>#}
+    {#    #}{#{{ form(user_form) }}#}
+    {#    {{ form_start(user_form) }}#}
+    {#       {{ form_label(user_form.fullname) }}#}
+    {#       {{ form_widget(user_form.fullname) }}#}
+    {#    {{ form_end(user_form) }}#}
+
+    {#    <h1>Render the post that i got from the database</h1>#}
+    {#    {{ post.title }}#}
+    {#    <hr>#}
+    {#    {{ post.description }}#}
+
+    <h1>User Form:</h1>
+    {{ form(post_form) }}
+
+{% endblock %}

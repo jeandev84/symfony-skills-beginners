@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Show Post : {{ post.title }}{% endblock %}
+
+{% block body %}
+   <h1 class="text-center">Show post</h1>
+   <strong>Post title: </strong> {{ post.title }}
+   <hr>
+   <strong>Post description: </strong> {{ post.description }}
+   <hr>
+   {# name is a object #}
+   {# <strong>Post category: </strong> {{ post.category }} return the name of category grace a toString#}
+   {# <strong>Post category: </strong> {{ post.category.id }}#}
+   {# <strong>Post category: </strong> {{ post.category.slug }}#}
+   <strong>Post category: </strong> {{ post.category }}
+{% endblock %}

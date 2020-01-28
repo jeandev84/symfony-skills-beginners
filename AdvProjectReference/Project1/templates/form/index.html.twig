@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Form{% endblock %}
+
+{% block body %}
+  {# {{ form(post_form) }} #}
+{#
+{{ form_start(post_form, {'attr': {'id': 'custom_post_form', 'class': 'some_custom_class', 'action': 'action/action'}}) }}
+#}
+  {{ form_start(post_form, {'attr': {'id': 'custom_post_form'}}) }}
+    {{ form(post_form) }}
+  {{ form_end(post_form) }}
+{% endblock %}
+
