@@ -5,6 +5,14 @@
 {% block body %}
     <h1>Edit Category</h1>
 
+    <!-- Show flashes messages -->
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-warning">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <!-- End flashes messages -->
+
     {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('category_index') }}">back to list</a>

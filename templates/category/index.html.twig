@@ -4,7 +4,29 @@
 
 {% block body %}
     <h1>Category index</h1>
+    <!-- Show flashes messages -->
+{#    {% for message in app.flashes('info') %}#}
+{#        <div class="alert alert-success">#}
+{#            {{ message }}#}
+{#        </div>#}
+{#    {% endfor %}#}
 
+{#    {% for messages in app.flashes('info') %}#}
+{#        {% for message in messages %}#}
+{#            <div class="alert alert-success">#}
+{#                {{ message }}#}
+{#            </div>#}
+{#        {%  endfor %}#}
+{#    {% endfor %}#}
+
+    {% for messages in app.flashes %}
+       {% for message in messages %}
+           <div class="alert alert-success">
+               {{ message }}
+           </div>
+       {%  endfor %}
+    {% endfor %}
+    <!-- End flashes messages -->
     <table class="table">
         <thead>
             <tr>
