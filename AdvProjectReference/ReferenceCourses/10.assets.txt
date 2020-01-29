@@ -1,0 +1,105 @@
+1.
+$ composer require asset (symfony/asset)
+
+2.
+$ composer require webpack-encore
+
+3.
+
+$ npm install
+
+4.
+$ npm run watch
+
+======================================================================
+ALL PROCESS :
+----------------------------------------------------------------------
+
+$ npm install
+npm WARN npm npm does not support Node.js v10.15.2
+npm WARN npm You should probably upgrade to a newer version of node as we
+npm WARN npm can't make any promises that npm will work with this version.
+npm WARN npm Supported releases of Node.js are the latest release of 4, 6, 7, 8, 9.
+npm WARN npm You can find the latest version at https://nodejs.org/
+
+> core-js@3.6.4 postinstall /var/www/symfony-skills-beginners/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+
+The project needs your help! Please consider supporting of core-js on Open Collective or Patreon:
+> https://opencollective.com/core-js
+> https://www.patreon.com/zloirock
+
+Also, the author of core-js ( https://github.com/zloirock ) is looking for a good job -)
+
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.11 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.11: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+
+added 908 packages from 471 contributors in 26.243s
+
+
+> core-js@3.6.4 postinstall /var/www/symfony-skills-beginners/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+
+The project needs your help! Please consider supporting of core-js on Open Collective or Patreon:
+> https://opencollective.com/core-js
+> https://www.patreon.com/zloirock
+
+Also, the author of core-js ( https://github.com/zloirock ) is looking for a good job -)
+
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.11 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.11: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+
+added 908 packages from 471 contributors in 26.243s
+
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners$ npm run watch
+npm WARN npm npm does not support Node.js v10.15.2
+npm WARN npm You should probably upgrade to a newer version of node as we
+npm WARN npm can't make any promises that npm will work with this version.
+npm WARN npm Supported releases of Node.js are the latest release of 4, 6, 7, 8, 9.
+npm WARN npm You can find the latest version at https://nodejs.org/
+
+> @ watch /var/www/symfony-skills-beginners
+> encore dev --watch
+
+Running webpack ...
+
+
+webpack is watching the files…
+
+ DONE  Compiled successfully in 885ms                                                                                                                     12:40:24
+
+ I  3 files written to public/build
+Entrypoint app = runtime.js app.css app.js
+ WAIT  Compiling...                                                                                                                                       12:47:47
+
+ DONE  Compiled successfully in 58ms                                                                                                                      12:47:48
+
+ I  3 files written to public/build
+Entrypoint app = runtime.js app.css app.js
+ WAIT  Compiling...                                                                                                                                       12:48:04
+
+ DONE  Compiled successfully in 28ms                                                                                                                      12:48:05
+
+ I  3 files written to public/build
+Entrypoint app = runtime.js app.css app.js
+ WAIT  Compiling...                                                                                                                                       12:48:14
+
+ DONE  Compiled successfully in 24ms                                                                                                                      12:48:14
+
+ I  3 files written to public/build
+Entrypoint app = runtime.js app.css app.js
+ WAIT  Compiling...                                                                                                                                       12:48:18
+
+ DONE  Compiled successfully in 24ms                                                                                                                      12:48:18
+
+ I  3 files written to public/build
+Entrypoint app = runtime.js app.css app.js
+
+

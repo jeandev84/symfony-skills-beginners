@@ -3,16 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app.css') }}">
         <title>
             {% block title %}
                 Welcome!
             {% endblock %}
         </title>
-
-        {% block myownblockwhatever %}
-        {% endblock %}
-
 
         {% block stylesheets %}{% endblock %}
     </head>
@@ -22,6 +18,7 @@
              <h2>Navigation</h2>
              {% block body %}{% endblock %}
         </div>
+        <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
