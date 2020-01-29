@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Post;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -35,6 +36,11 @@ class PostType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => 'App\Entity\Category'
+            ])
+            # maped: false, because doesn't property in the database to map
+            ->add('my_file', FileType::class, [
+                'mapped' => false,
+                'label'  => 'Please upload a file'
             ])
             ->add('save', SubmitType::class, [
                 'attr' => [
