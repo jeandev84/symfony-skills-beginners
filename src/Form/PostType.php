@@ -47,6 +47,34 @@ class PostType extends AbstractType
                       ]);
                  }
             );
+
+            $builder->addEventListener(
+      FormEvents::POST_SET_DATA,
+                function (FormEvent $event) {
+                    $form = $event->getForm();
+                    $data = $event->getData();
+                    $sub_category = $data->getSubCategory();
+
+                    if($sub_category)
+                    {
+                        $form->get('category')->setData($sub_category->getCategory());
+
+                        $form->add('sub_category', EntityType::class, [
+                            'class' => 'App\Entity\SubCategory',
+                            'placeholder' => 'Please select a sub category',
+                            'choices' => $sub_category->geCategory()->getSubCategories()
+                        ]);
+
+                    } else {
+
+                        $form->add('sub_category', EntityType::class, [
+                            'class' => 'App\Entity\SubCategory',
+                            'placeholder' => 'Please select a sub category',
+                            'choices' => []
+                        ]);
+                    }
+                }
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
