@@ -1,9 +1,3 @@
-Documentation:
-https://symfony.com/form/dynamic_form_modification.html (form modification)
-https://symfony.com/form/events.html (form events)
-https://symfony.com/doc/current/event_dispatcher.html (event listeners )
-=================================================================
-
 <?php
 
 namespace App\Form;

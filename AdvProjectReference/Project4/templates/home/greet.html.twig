@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Form
+{% endblock %}
+
+{% block body %}
+    <img src="{{ asset('uploads/') ~ image }}" alt="" width="100">
+
+    <h1>User Form:</h1>
+{# {{ form(post_form) }} #}
+    {{ form_start(post_form, {'attr': {'id': 'post_form_custom'}}) }}
+    {{ form(post_form) }}
+    {{ form_end(post_form) }}
+
+    <hr>
+{#    {{ dump(partial_array) }}#}
+{% endblock %}

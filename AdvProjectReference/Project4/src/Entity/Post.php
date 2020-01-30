@@ -20,53 +20,15 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
-    */
+     */
     private $title;
 
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-    */
-    private $content;
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
-    */
-    private $user;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mapped="post", cascade={"persist", "remove"})
-    */
-    private $comments;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mapped="post", cascade={"persist", "remove"})
-    */
-    private $attachments;
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="post")
      * @Assert\NotBlank()
-     * # Example : ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="posts", fetch="EAGER")
     */
-    private $subCategory;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BookMark", mapped="post", cascade={"persist", "remove"})
-    */
-    private $bookmarks;
-
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $created_at;
-
+    private $sub_category;
 
     public function getId(): ?int
     {
