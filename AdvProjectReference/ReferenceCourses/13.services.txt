@@ -1,0 +1,352 @@
+DEBUG CONTAINER ( Dependency Injection )
+==================================
+$ bin/console debug:container
+
+==================================
+DEBUG A SPECIFIC SERVICE
+==================================
+
+$ bin/console debug:container twig.loader
+
+ // This service is a public alias for the service twig.loader.native_filesystem
+
+Information for Service "twig.loader.native_filesystem"
+=======================================================
+
+ Loads template from the filesystem.
+
+ ---------------- ------------------------------------------------------
+  Option           Value
+ ---------------- ------------------------------------------------------
+  Service ID       twig.loader.native_filesystem
+  Class            Twig\Loader\FilesystemLoader
+  Tags             twig.loader
+  Calls            addPath, addPath, addPath, addPath, addPath, addPath
+  Public           no
+  Synthetic        no
+  Lazy             no
+  Shared           yes
+  Abstract         no
+  Autowired        no
+  Autoconfigured   no
+ ---------------- ------------------------------------------------------
+
+
+ ! [NOTE] The "twig.loader" service or alias has been removed or inlined when the container was compiled.
+
+==================================================================================
+config/service.yaml
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+   local: 'en'
+   uploads_directory: '%kernel.project_dir%/public/uploads'
+   forbiddenLink: 'www.youtube.com'
+   # forbiddenLink: 'www.google.com'
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\Services\Fetcher:
+       arguments:
+         $forbiddenLink : 'www.google.com'
+
+===================================================================
+src/Controllers/HomeController.php
+
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Post;
+use App\Form\PostType;
+use App\Services\Fetcher;
+use App\Services\Paginator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+
+/**
+ * Class HomeController
+ * @package App\Controller
+ *
+ * @Route("/home", name="home.")
+*/
+class HomeController extends AbstractController
+{
+    /**
+     * @Route("/index", name="index")
+     */
+    public function index()
+    {
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+
+    /**
+     * @Route("/newpost", name="new.post")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function newPost(Request $request)
+    {
+        // request
+        // $name = $request->get('name');
+
+        /*-------------------------------------------------------------
+         * explain difference between createForm & createFormBuilder
+        ------------------------------------------------------------ */
+
+        $post = new Post();
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        $image = 'e029b1c29d86ea71f793d3f1a1e5ed2b.jpeg';
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            // dump($request);
+
+            # Upload File
+            # ( post is a parameter )
+            $file = $request->files->get('post')['my_file'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) .'.'. $file->guessExtension();
+
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+
+            /* dd($file); */
+
+            # save to the database
+            /* $post->setImage($filename); */
+
+            // save to db
+            $em = $this->getDoctrine()->getManager();
+            //$em->persist($post);
+            //$em->flush();
+        }
+
+
+        return $this->render('home/greet.html.twig', [
+          'post_form' => $form->createView(),
+          'image' => $image
+       ]);
+    }
+
+
+    /**
+     * @Route("/uploads", name="uploads")
+     * @param Request $request
+     * @param Fetcher $fetcher
+     * @param Paginator $paginator
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function uploads(Request $request, Fetcher $fetcher, Paginator $paginator)
+    {
+        // URL : https://api.coinmarketcap.com/v2/listings/
+        // request
+        // $name = $request->get('name');
+
+        /*-------------------------------------------------------------
+         * explain difference between createForm & createFormBuilder
+        ------------------------------------------------------------ */
+
+        $post = new Post();
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        $image = 'e029b1c29d86ea71f793d3f1a1e5ed2b.jpeg';
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            // dump($request);
+
+            # Multiple Upload
+            $uploads_directory = $this->getParameter('uploads_directory');
+
+            // get array of files
+            $files = $request->files->get('post')['my_files'];
+
+            // loop throught the files
+            foreach($files as $file)
+            {
+                $filename = md5(uniqid()) .'.'. $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+            }
+
+            /* dd($file); */
+
+            # save to the database
+            /* $post->setImage($filename); */
+
+            // save to db
+            $em = $this->getDoctrine()->getManager();
+            //$em->persist($post);
+            //$em->flush();
+        }
+
+        /* $result = $fetcher->get('https://api.coinmarketcap.com/v2/listings/'); */
+        $result = $fetcher->get('www.google.com');
+        $partialArray = $paginator->getPartial($result['data'], 10, 10);
+
+        return $this->render('home/greet.html.twig', [
+            'post_form' => $form->createView(),
+            'image' => $image,
+            'partial_array' => $partialArray
+        ]);
+    }
+
+
+    /**
+     * @Route("/showPost/{id}", name="show.post")
+     * @param Request $request
+     * @param Post $post
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showPost(Request $request, Post $post)
+    {
+        return $this->render('home/show_post.html.twig', [
+            'post' => $post
+        ]);
+    }
+}
+
+==========================================================================
+
+templates/home/greeting.html.twig
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Form
+{% endblock %}
+
+{% block body %}
+    <img src="{{ asset('uploads/') ~ image }}" alt="" width="100">
+
+    <h1>User Form:</h1>
+{# {{ form(post_form) }} #}
+    {{ form_start(post_form, {'attr': {'id': 'post_form_custom'}}) }}
+    {{ form(post_form) }}
+    {{ form_end(post_form) }}
+
+    <hr>
+    {{ dump(partial_array) }}
+{% endblock %}
+
+==========================================================================
+
+src/Services/Fetcher.php
+<?php
+namespace App\Services;
+
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Log\LoggerInterface;
+
+/**
+ * Class Fetcher
+ * @package App\Services
+*/
+class Fetcher
+{
+
+    /** LoggerInterface $logger , public function __construct(LoggerInterface $logger) {} */
+    /** \Swift_Mailer $mailer , public function __construct(\Swift_Mailer $mailer) {} */
+
+    private $forbiddenLink;
+
+    private $container;
+
+    /**
+     * Fetcher constructor.
+     * @param ContainerInterface $container
+     * @param $forbiddenLink
+     */
+    public function __construct(ContainerInterface $container, $forbiddenLink)
+    {
+        var_dump($forbiddenLink);
+        $this->forbiddenLink = $forbiddenLink;
+        $this->container = $container;
+    }
+
+    /**
+     * @param $url
+     * @return string
+    */
+    public function get($url)
+    {
+       $uploads_dir = $this->container->getParameter('forbiddenLink');
+       var_dump($uploads_dir);
+
+       if($url === $this->forbiddenLink)
+       {
+           return false;
+       }
+
+       // get the result from the api
+       $result = file_get_contents($url);
+       return json_decode($result, true);
+    }
+}
+
+====================================================================
+src/Services/Paginator.php
+
+<?php
+namespace App\Services;
+
+
+/**
+ * Class Paginator
+ * @package App\Services
+*/
+class Paginator
+{
+
+    /**
+     * @param $data
+     * @param $offset
+     * @param $length [ The length is the limit ]
+     * @return array
+     */
+     public function getPartial($data, $offset, $length)
+     {
+          return array_slice($data, $offset, $length);
+     }
+}
+
+=====================================================================

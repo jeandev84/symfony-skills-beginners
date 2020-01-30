@@ -18,7 +18,9 @@
              <h2>Navigation</h2>
              {% block body %}{% endblock %}
         </div>
-        <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
+{#        <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>#}
+        <script type="text/javascript" src="{{ asset('jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/app.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

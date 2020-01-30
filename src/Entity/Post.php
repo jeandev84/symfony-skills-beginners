@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -21,16 +23,12 @@ class Post
      */
     private $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="post")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="post")
+     * @Assert\NotBlank()
     */
-    private $category;
+    private $sub_category;
 
     public function getId(): ?int
     {
@@ -49,26 +47,15 @@ class Post
         return $this;
     }
 
-    public function getDescription(): ?string
+
+    public function getSubCategory(): ?SubCategory
     {
-        return $this->description;
+        return $this->sub_category;
     }
 
-    public function setDescription(string $description): self
+    public function setSubCategory(?SubCategory $sub_category): self
     {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
+        $this->sub_category = $sub_category;
 
         return $this;
     }

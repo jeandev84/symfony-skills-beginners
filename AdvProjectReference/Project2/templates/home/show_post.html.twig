@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Show Post : {{ post.title }}{% endblock %}
+
+{% block body %}
+   <h1 class="text-center">Show post</h1>
+   <strong>Post title: </strong> {{ post.title }}
+   <hr>
+   <strong>Post description: </strong> {{ post.description }}
+   <hr>
+   <strong>Post category: </strong> {{ post.category }}
+{% endblock %}

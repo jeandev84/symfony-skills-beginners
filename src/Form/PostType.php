@@ -12,6 +12,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+
 
 
 /**
@@ -23,30 +26,27 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, [
-                 'attr' => [
-                     'placeholder' => 'Enter the title here.',
-                     'class' => 'custom_class'
-                 ]
-            ])
-            ->add('description', TextareaType::class, [
-                'attr' => [
-                    'placeholder' => 'Enter the description here.'
-                ]
-            ])
+            ->add('title')
             ->add('category', EntityType::class, [
-                'class' => 'App\Entity\Category'
-            ])
-            # maped: false, because doesn't property in the database to map
-            ->add('my_file', FileType::class, [
-                'mapped' => false,
-                'label'  => 'Please upload a file'
-            ])
-            ->add('save', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-success'
-                ]
+                'class' => 'App\Entity\Category',
+                'placeholder' => 'Select a category',
+                'mapped' => false
             ]);
+
+            $builder->get('category')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                 function (FormEvent $event) {
+                      $form = $event->getForm();
+                      /* dump($form); $form->getData() return Category */
+
+                      /* $data = $event->getData(); */
+                      $form->getParent()->add('sub_category', EntityType::class, [
+                          'class' => 'App\Entity\SubCategory',
+                          'placeholder' => 'Please select a sub category',
+                          'choices' => $form->getData()->getSubCategories()
+                      ]);
+                 }
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
