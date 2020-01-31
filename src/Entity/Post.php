@@ -68,6 +68,25 @@ class Post
     private $created_at;
 
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+    */
+    private $published_at;
+
+
+    /**
+     * @ORM\Column(type="integer", options={"default": 0})
+    */
+    private $views_counter = 0;
+
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $thumbnail;
+
+
     public function getId(): ?int
     {
         return $this->id;

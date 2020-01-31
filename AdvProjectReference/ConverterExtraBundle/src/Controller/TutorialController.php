@@ -18,12 +18,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 class TutorialController extends AbstractController
 {
     /**
-     * @Route("/post/{id}")
+     * @Route("/post/{start}/{end}")
+     * # Route("/post/{title}")
+     * # Route("/post/{id}")
      * @Entity("post", expr="repository.findPublishedById(id)", options={"converter"="custom_converter"})
-     * @param Post $post
+     * # Entity("post", expr="repository.findPublishedById(id)", options={"entity_manager"="ValueOfEntityManager"})
+     * @param \DateTime $dateTime
      * @return \Symfony\Component\HttpFoundation\Response
-    */
-    public function getPost(Post $post)
+     */
+    # public function getPost(Post $post) { }
+    public function getPost(\DateTime $dateTime)
     {
         return $this->render('tutorial/index.html.twig', [
             'controller_name' => 'TutorialController',
