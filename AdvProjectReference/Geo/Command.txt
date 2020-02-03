@@ -1,0 +1,163 @@
+MAKE NEW CONTROLLER
+==========================================
+
+
+ Choose a name for your controller class (e.g. GentlePuppyController):
+ > HomeController
+
+ created: src/Controller/HomeController.php
+ created: templates/home/index.html.twig
+
+
+  Success!
+
+
+ Next: Open your new controller class and add some pages!
+
+=====================================================================
+
+Make User :
+$ bin/console make:user
+
+Make Auth :
+$ bin/console make:auth
+
+Make Entity :
+$ bin/console make:entity
+
+ Class name of the entity to create or update (e.g. BraveElephant):
+ > LoginHistory
+
+ created: src/Entity/LoginHistory.php
+ created: src/Repository/LoginHistoryRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > last_visit
+
+ Field type (enter ? to see all types) [string]:
+ > datetime
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ > yes
+
+ updated: src/Entity/LoginHistory.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+===========================================================================
+
+$ bin/console make:entity --regenerate
+
+ This command will generate any missing methods (e.g. getters & setters) for a class or all classes in a namespace.
+
+ To overwrite any existing methods, re-run this command with the --overwrite flag
+
+ Enter a class or namespace to regenerate [App\Entity]:
+ >
+
+ no change: src/Entity/Post.php
+ updated: src/Entity/User.php
+ updated: src/Entity/LoginHistory.php
+ no change: src/Entity/Image.php
+
+
+  Success!
+
+===============================================================
+$ bin/console doctrine:schema:update --force
+
+ Updating database schema...
+
+     1 query was executed
+
+
+ [OK] Database schema updated successfully!
+
+=====================================================================
+
+MYSQL:
+$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 92
+Server version: 10.3.22-MariaDB-1:10.3.22+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use symfony_geo;
+Database changed
+MariaDB [symfony_geo]> decribe post;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'decribe post' at line 1
+MariaDB [symfony_geo]> describe post;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title   | varchar(255) | NO   |     | NULL    |                |
+| content | varchar(255) | NO   |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+3 rows in set (0.002 sec)
+
+MariaDB [symfony_geo]> describe image;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| post_id  | int(11)      | YES  | MUL | NULL    |                |
+| filename | varchar(255) | NO   |     | NULL    |                |
+| path     | varchar(255) | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [symfony_geo]> select * from post;
+Empty set (0.001 sec)
+
+MariaDB [symfony_geo]> select * from post;
++----+----------+----------------------+
+| id | title    | content              |
++----+----------+----------------------+
+|  1 | New post | some content of post |
++----+----------+----------------------+
+1 row in set (0.001 sec)
+
+MariaDB [symfony_geo]> select * from image;
++----+---------+--------------------------------------+-----------------------------------------------+
+| id | post_id | filename                             | path                                          |
++----+---------+--------------------------------------+-----------------------------------------------+
+|  1 |       1 | 00667e914be8916a75b06ba5c44c4326jpeg | /uploads/00667e914be8916a75b06ba5c44c4326jpeg |
+|  2 |       1 | c4bd448e0a0252fffa00382620dca442jpeg | /uploads/c4bd448e0a0252fffa00382620dca442jpeg |
++----+---------+--------------------------------------+-----------------------------------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [symfony_geo]> show tables;
++-----------------------+
+| Tables_in_symfony_geo |
++-----------------------+
+| image                 |
+| login_history         |
+| post                  |
+| user                  |
++-----------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [symfony_geo]> select * from login_history;
+Empty set (0.001 sec)
+
+MariaDB [symfony_geo]>
+
+=================================================================
+Load Fixtures:
+$ $ bin/console doctrine:fixtures:load

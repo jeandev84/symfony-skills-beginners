@@ -1,0 +1,382 @@
+Install orm-fixtures
+=============================================
+$ composer require orm-fixtures --dev
+
+
+=============================================
+Make Entity Post
+=============================================
+$ bin/console make:entity
+
+ Class name of the entity to create or update (e.g. AgreeableChef):
+ > Post
+
+ created: src/Entity/Post.php
+ created: src/Repository/PostRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > title
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > content
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+
+=============================================
+Make Entity Image
+=============================================
+ Class name of the entity to create or update (e.g. TinyPizza):
+ > Image
+
+ created: src/Entity/Image.php
+ created: src/Repository/ImageRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > filename
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Image.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > path
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Image.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+
+=============================================================
+RelationShip :
+Post (one)   ===> Image (many)
+Image (many) ===> Post (one)
+
+Each Post has Many Images
+Many Image Belongs to One Post
+
+=============================================================
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ */
+class Post
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $content;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="post")
+    */
+    private $images;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+}
+
+
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ */
+class Image
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $filename;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="images")
+    */
+    private $post;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(string $filename): self
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+}
+
+
+$ bin/console make:entity --regenerate
+
+ This command will generate any missing methods (e.g. getters & setters) for a class or all classes in a namespace.
+
+ To overwrite any existing methods, re-run this command with the --overwrite flag
+
+ Enter a class or namespace to regenerate [App\Entity]:
+ >
+
+ no change: src/Entity/User.php
+ updated: src/Entity/Post.php
+ updated: src/Entity/Image.php
+
+
+  Success!
+
+
+=============================================================
+Update Schema :
+$ bin/console doctrine:schema:update --force
+
+ This command will generate any missing methods (e.g. getters & setters) for a class or all classes in a namespace.
+
+ To overwrite any existing methods, re-run this command with the --overwrite flag
+
+ Enter a class or namespace to regenerate [App\Entity]:
+ >
+
+ no change: src/Entity/User.php
+ updated: src/Entity/Post.php
+ updated: src/Entity/Image.php
+
+
+  Success!
+
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners/Authentication$ bin/console doctrine:schema:update --force
+
+ Updating database schema...
+
+     3 queries were executed
+
+
+ [OK] Database schema updated successfully!
+
+=============================================================
+Create Database :
+
+$ bin/console doctrine:database:create
+Created database `symfony_geo` for connection named default
+
+$ bin/console doctrine:schema:update --force
+
+ Updating database schema...
+
+     4 queries were executed
+
+
+ [OK] Database schema updated successfully!
+
+=============================================================
+MYSQL :
+
+$ mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 92
+Server version: 10.3.22-MariaDB-1:10.3.22+maria~bionic mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use symfony_geo;
+Database changed
+MariaDB [symfony_geo]> decribe post;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'decribe post' at line 1
+MariaDB [symfony_geo]> describe post;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title   | varchar(255) | NO   |     | NULL    |                |
+| content | varchar(255) | NO   |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+3 rows in set (0.002 sec)
+
+MariaDB [symfony_geo]> describe image;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| post_id  | int(11)      | YES  | MUL | NULL    |                |
+| filename | varchar(255) | NO   |     | NULL    |                |
+| path     | varchar(255) | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [symfony_geo]>
+
+
+=============================================================
+Make CRUD
+=============================================================
+$ bin/console make:crud
+
+ The class name of the entity to create CRUD (e.g. AgreeableGnome):
+ > Post
+
+ created: src/Controller/PostController.php
+ created: src/Form/PostType.php
+ created: templates/post/_delete_form.html.twig
+ created: templates/post/_form.html.twig
+ created: templates/post/edit.html.twig
+ created: templates/post/index.html.twig
+ created: templates/post/new.html.twig
+ created: templates/post/show.html.twig
+
+
+  Success!
+
+
+ Next: Check your new CRUD by going to /post/
+
+============================================================
+
+
+
+
+=============================================================
+Make a Fixtures
+=============================================================
+$ bin/console make:fix
