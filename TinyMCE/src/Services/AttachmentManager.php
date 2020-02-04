@@ -41,7 +41,7 @@ class AttachmentManager
      */
     public function uploadAttachment(UploadedFile $file, Post $post)
     {
-        $filename = md5(uniqid()). $file->guessExtension();
+        $filename = md5(uniqid()). '.'. $file->guessExtension();
 
         $file->move(
            $this->getUploadsDir(),
