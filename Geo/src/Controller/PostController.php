@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
+use App\Entity\Attachment;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
@@ -45,7 +45,7 @@ class PostController extends AbstractController
             /** @var UploadedFile $file */
             foreach($files as $file)
             {
-                $image = new Image();
+                $image = new Attachment();
 
                 $filename = md5(uniqid()) . $file->guessExtension();
                 $image->setFilename($filename);

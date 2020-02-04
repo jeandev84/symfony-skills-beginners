@@ -70,14 +70,14 @@ class Post
     }
 
     /**
-     * @return Collection|Image[]
+     * @return Collection|Attachment[]
      */
     public function getImages(): Collection
     {
         return $this->images;
     }
 
-    public function addImage(Image $image): self
+    public function addImage(Attachment $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
@@ -87,7 +87,7 @@ class Post
         return $this;
     }
 
-    public function removeImage(Image $image): self
+    public function removeImage(Attachment $image): self
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
