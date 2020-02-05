@@ -20,6 +20,27 @@ class AttachmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Attachment::class);
     }
 
+
+    /**
+     * @param array $filenames
+     * @param int $post_id
+     * @return mixed
+    */
+    public function findAttachmentsToRemove(array $filenames, int $post_id)
+    {
+         $qb = $this->createQueryBuilder('a');
+
+         $qb->select()
+            ->where(
+                $qb->expr()->andX(
+                   $qb->expr()->eq('a.post', $post_id),
+                   $qb->expr()->notIn('a.filename', $filenames)
+                )
+            );
+
+         return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Attachment[] Returns an array of Attachment objects
     //  */

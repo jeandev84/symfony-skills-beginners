@@ -6,6 +6,7 @@ use App\Entity\Attachment;
 use App\Entity\Post;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -38,13 +39,14 @@ class AttachmentManager
 
     /**
      * @param UploadedFile $file
+     * @return array
      */
     public function uploadAttachment(UploadedFile $file, Post $post)
     {
         $filename = md5(uniqid()). '.'. $file->guessExtension();
 
         $file->move(
-           $this->getUploadsDir(),
+           $this->getUploadsDirectory(),
            $filename
         );
 
@@ -68,9 +70,24 @@ class AttachmentManager
 
 
     /**
+     * @param string|null $filename
+    */
+    public function removeAttachment(?string $filename)
+    {
+        if(! empty($filename))
+        {
+            $filesystem = new Filesystem();
+            $filesystem->remove(
+                $this->getUploadsDirectory() . $filename
+            );
+        }
+    }
+
+
+    /**
      * @return mixed
     */
-    public function getUploadsDir()
+    public function getUploadsDirectory()
     {
         return $this->container->getParameter('uploads');
     }
