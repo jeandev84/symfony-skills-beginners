@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tutorial;
 use App\Form\TutorialType;
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
 */
 class TutorialController extends AbstractController
 {
+
+    /**
+     * @Route("/api/getposts", methods={"GET"})
+     * @param PostRepository $postRepository
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+    */
+    public function getPosts(PostRepository $postRepository)
+    {
+        return $this->json([
+            'posts' => $postRepository->getPosts(),
+            'total' => $postRepository->getCountPosts()
+        ]);
+    }
+
 
     /**
      * @Route("/postform", name="post.form")
@@ -58,7 +73,7 @@ class TutorialController extends AbstractController
 
 
     /**
-     * @Route("/post", methods={"GET", "POST"})
+     * @Route("/posts", methods={"GET", "POST"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
     */
