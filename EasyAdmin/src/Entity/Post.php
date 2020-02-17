@@ -72,26 +72,12 @@ class Post
     */
     private $thumbnailFile;
 
-    /**
-     * @return mixed
-     */
-    public function getThumbnailFile()
-    {
-        return $this->thumbnailFile;
-    }
 
     /**
-     * @param mixed $thumbnailFile
-     * @throws \Exception
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="post", cascade={"persist"})
+     * One Post has many attachments
     */
-    public function setThumbnailFile($thumbnailFile): void
-    {
-        $this->thumbnailFile = $thumbnailFile;
-        if($thumbnailFile)
-        {
-            $this->updatedAt = new \DateTime();
-        }
-    }
+    private $attachments;
 
 
     public function __construct()
@@ -99,6 +85,7 @@ class Post
         $this->tags = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->attachments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,5 +209,59 @@ class Post
         $this->thumbnail = $thumbnail;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getPost() === $this) {
+                $attachment->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getThumbnailFile()
+    {
+        return $this->thumbnailFile;
+    }
+
+    /**
+     * @param mixed $thumbnailFile
+     * @throws \Exception
+     */
+    public function setThumbnailFile($thumbnailFile): void
+    {
+        $this->thumbnailFile = $thumbnailFile;
+        if($thumbnailFile)
+        {
+            $this->updatedAt = new \DateTime();
+        }
     }
 }

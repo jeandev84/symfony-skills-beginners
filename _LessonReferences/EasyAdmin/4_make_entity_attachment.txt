@@ -1,0 +1,84 @@
+$ bin/console make:entity
+
+ Class name of the entity to create or update (e.g. DeliciousGnome):
+ > Attachment
+
+ created: src/Entity/Attachment.php
+ created: src/Repository/AttachmentRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > image
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Attachment.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+===========================================================================
+$ bin/console make:entity --regenerate
+
+ This command will generate any missing methods (e.g. getters & setters) for a class or all classes in a namespace.
+
+ To overwrite any existing methods, re-run this command with the --overwrite flag
+
+ Enter a class or namespace to regenerate [App\Entity]:
+ >
+
+ no change: src/Entity/Category.php
+ no change: src/Entity/User.php
+ updated: src/Entity/Attachment.php
+ updated: src/Entity/Post.php
+ no change: src/Entity/Tag.php
+
+
+  Success!
+
+
+jeandev@jeandev-Lenovo-G580:/var/www/symfony-skills-beginners/EasyAdmin$ bin/console doctrine:schema:update --force
+
+ Updating database schema...
+
+     2 queries were executed
+
+
+ [OK] Database schema updated successfully!
+
+==================================================================
+Make Form :
+
+$ bin/console make:form
+
+ The name of the form class (e.g. OrangeChefType):
+ > AttachmentType
+
+ The name of Entity or fully qualified model class name that the new form will be bound to (empty for none):
+ > Attachment
+
+ created: src/Form/AttachmentType.php
+
+
+  Success!
+
+
+ Next: Add fields to your form and start using it.
+ Find the documentation at https://symfony.com/doc/current/forms.html
+
+============================================================

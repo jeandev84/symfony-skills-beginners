@@ -1,0 +1,16 @@
+{% if value is not null %}
+{# {{ dump(value.count) }} #}
+    <div class="form-widget">
+        <div class="form-control">
+            {% for image in value %}
+                <a href="#" class="easyadmin-thumbnail" data-featherlight="#easyadmin-lightbox-{{ item.id }}">
+                    <img src="/uploads/files/{{ image.image }}">
+                </a>
+
+                <div id="easyadmin-lightbox-{{ item.id }}" class="easyadmin-lightbox">
+                    <img src="/uploads/files/{{ image.image }}" alt="">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
