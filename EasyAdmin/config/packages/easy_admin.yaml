@@ -40,11 +40,16 @@ easy_admin:
                  - {type: 'group', icon: 'th-list', label: 'Other Information', css_class: 'col-lg-5'}
                  - category
                  - tags
+                 - {type: 'group', icon: 'clip', label: 'Attachments', css_class: 'col-lg-5'}
+                 - {property: 'thumbnailFile', type: 'vich_image'}
+                #- thumbnailFile is the name of property in entity Post
+
             list: # list all records
               collapse_actions: true
               actions: ['show', 'edit', 'delete']
               batch_actions: ['delete'] # delete and deselect (ajoute un checkbox)
               title: "Here you can change title Post by everything you want"
+              fields: ['title', 'content', 'createdAt', {property: 'thumbnail', type: 'image', base_path: '%uploads_path%'}]
               filters: ['published']
             edit: # edit Post
               help: "Hello there"
@@ -56,6 +61,7 @@ easy_admin:
                 - {property: 'content', type: 'raw'}
                 - createdAt
                 - published
+                - {property: 'thumbnail', type: 'image', base_path: '%uploads_path%'}
                 #- content
         Category:
               class: App\Entity\Category

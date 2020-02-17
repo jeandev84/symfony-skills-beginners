@@ -1,0 +1,2 @@
+Install a Bundle:
+$ composer require vich/uploader-bundle
