@@ -1,0 +1,253 @@
+Post entity
+===============================================
+$ bin/console make:entity Post
+
+ created: src/Entity/Post.php
+ created: src/Repository/PostRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > title
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > content
+
+ Field type (enter ? to see all types) [string]:
+ > text
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > createdAt
+
+ Field type (enter ? to see all types) [datetime]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > published
+
+ Field type (enter ? to see all types) [string]:
+ > boolean
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Post.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+============================================================
+$ bin/console make:entity Category
+
+ created: src/Entity/Category.php
+ created: src/Repository/CategoryRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > title
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Category.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > slug
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Category.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+===========================================================
+Add Post Relation:
+
+$ bin/console make:entity Post
+
+ Your entity already exists! So let's add some new fields!
+
+ New property name (press <return> to stop adding fields):
+ > category
+
+ Field type (enter ? to see all types) [string]:
+ > ManyToOne
+
+ What class should this entity be related to?:
+ > Category
+
+ Is the Post.category property allowed to be null (nullable)? (yes/no) [yes]:
+ >
+
+ Do you want to add a new property to Category so that you can access/update Post objects from it - e.g. $category->getPosts()? (yes/no) [yes]:
+ >
+
+ A new property will also be added to the Category class so that you can access the related Post objects from it.
+
+ New field name inside Category [posts]:
+ >
+
+ updated: src/Entity/Post.php
+ updated: src/Entity/Category.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+=====================================================================
+
+Add Tag Entity:
+$ bin/console make:entity Tag
+
+ created: src/Entity/Tag.php
+ created: src/Repository/TagRepository.php
+
+ Entity generated! Now let's add some fields!
+ You can always add more fields later manually or by re-running this command.
+
+ New property name (press <return> to stop adding fields):
+ > name
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Tag.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ > slug
+
+ Field type (enter ? to see all types) [string]:
+ >
+
+ Field length [255]:
+ >
+
+ Can this field be null in the database (nullable) (yes/no) [no]:
+ >
+
+ updated: src/Entity/Tag.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+================================================================
+Post relation ship with Tag
+
+$ bin/console make:entity Post
+
+ Your entity already exists! So let's add some new fields!
+
+ New property name (press <return> to stop adding fields):
+ > tags
+
+ Field type (enter ? to see all types) [string]:
+ > ManyToMany
+
+ What class should this entity be related to?:
+ > Tag
+
+ Do you want to add a new property to Tag so that you can access/update Post objects from it - e.g. $tag->getPosts()? (yes/no) [yes]:
+ >
+
+ A new property will also be added to the Tag class so that you can access the related Post objects from it.
+
+ New field name inside Tag [posts]:
+ >
+
+ updated: src/Entity/Post.php
+ updated: src/Entity/Tag.php
+
+ Add another property? Enter the property name (or press <return> to stop adding fields):
+ >
+
+
+
+  Success!
+
+
+ Next: When you're ready, create a migration with make:migration
+
+=========================================================================
+
+ Updating database schema...
+
+     7 queries were executed
+
+
+ [OK] Database schema updated successfully!
+
+=====================================================================
+Cache clear :
+ $ bin/console cache:clear
+
